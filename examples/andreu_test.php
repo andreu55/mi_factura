@@ -1,17 +1,27 @@
 <?php
 
 $nombre_pdf = 'factura.pdf';
+$iva = 21;
 
-$datos_taxo = ['TAXO Valoración, S.L.', 'Avda. de Aragón 30 F 13'];
+$datos_taxo = ['B96735576', 'TAXO Valoración, S.L.', 'Avda. de Aragón 30 F 13'];
 
 if (isset($_POST['id'])) {
 	$id = $_POST['id'];
+	
+	$concepto = 'Desarrollo web';
+	
 	$horas = $_POST['horas'];
+	$base_unit = round(15, 2); // Lo que vale la hora
+	$importe = $horas * $base_unit;
+	
+	$importe_iva = round(($importe*$iva)/100, 2);
+	$importe_total = $importe_iva + $importe;
 
 	$ftemp = explode('-', $_POST['fecha']);
 	$fecha = $ftemp[2] . "/" . $ftemp[1] . "/" . $ftemp[0];
 
 	$nombre_pdf = 'fac_' . $id . '.pdf';
+	
 }
 
 // Include the main TCPDF library (search for installation path).
@@ -70,7 +80,7 @@ $pdf->Cell(90, 0, 'Andreu García Martínez', 0, 0, 'L', 0, '', 1);
 $pdf->SetFont('times', 'BI', 19);
 $pdf->Cell(90, 0, 'Fac. ' . $id, 0, 1, 'R', 0, '', 1);
 
-$pdf->Cell(0, 2, '', 'T', 1); // Linea separadora
+$pdf->Cell(0, 0, '', 'T', 1); // Linea separadora
 // $pdf->Cell(0, 0, '', '', 1);
 
 // Mis datos
@@ -81,7 +91,7 @@ $pdf->Cell(0, 0, 'NIF: 29196333H', 0, 1, 'L', 0, '', 1);
 $pdf->Cell(90, 0, 'Calle Cienfuegos 16, pta 3', 0, 0, 'L', 0, '', 1);
 $pdf->Cell(90, 0, '622 666 125', 0, 1, 'R', 0, '', 1);
 
-$pdf->Cell(90, 0, '46007, Valencia.', 0, 0, 'L', 0, '', 1);
+$pdf->Cell(90, 0, '46006, Valencia.', 0, 0, 'L', 0, '', 1);
 $pdf->Cell(90, 0, 'anduwet2@gmail.com', 0, 1, 'R', 0, '', 1);
 
 $pdf->Ln();
@@ -89,50 +99,55 @@ $pdf->Ln();
 // Facturar a:
 $pdf->SetFont('times', 'B', 15);
 $pdf->Cell(90, 12, 'Facturar a:', 0, 0, 'L', 0, '', 1);
-$pdf->Cell(90, 12, 'Fecha. ' . $fecha, 0, 1, 'R', 0, '', 1);
+$pdf->Cell(90, 12, 'Fecha ' . $fecha, 0, 1, 'R', 0, '', 1);
 
 // Datos cliente aqui
 $pdf->SetFont('times', 'I', 15);
-$pdf->Cell(90, 0, $datos_taxo[0], 0, 1, 'L', 0, '', 1);
-$pdf->Cell(90, 0, $datos_taxo[1], 0, 1, 'L', 0, '', 1);
+$pdf->Cell(90, 0, 'NIF: ' . $datos_taxo[0], 0, 1, 'L', 0, '', 1);
+// $pdf->Cell(90, 0, 'Pagadero a la recepción', 0, 1, 'R', 0, '', 1);
 
-$pdf->Ln();
+$pdf->Cell(90, 0, $datos_taxo[1], 0, 0, 'L', 0, '', 1);
+$pdf->Cell(90, 0, 'Vencimiento ' . $fecha, 0, 1, 'R', 0, '', 1);
 
-// bgcolor="#cccccc" colspan="2"
 
-$html = '<table border="1" cellspacing="0" cellpadding="5">
-	<tr>
-		<th><b>Concepto</b></th>
-		<th align="center"><b>Cant.</b></th>
-		<th align="center"><b>Base Unit.</b></th>
-		<th align="right"><b>Importe</b></th>
+$pdf->Cell(90, 0, $datos_taxo[2], 0, 1, 'L', 0, '', 1);
+
+$pdf->Ln(15);
+$pdf->SetFont('helvetica', '', 15);
+
+// bgcolor="#cccccc" colspan="2" rowspan="2"
+// font-weight: bold;
+
+$html = '<style>
+th {
+	border-bottom: 1px solid #000;
+	font-size: 15px;
+	color: #BBB;	
+}
+</style>
+<table border="0" cellspacing="0" cellpadding="5">
+	<tr id="hola">
+		<th colspan="2">Concepto & Descripción</th>
+		<th align="center">Cant.</th>
+		<th align="center">Base Unit.</th>
+		<th align="right">Importe</th>
 	</tr>
 	<tr>
-		<td>Desarrollo web y bla bla</td>
-		<td align="center">'.$horas.'</td>
-		<td align="center">15</td>
-		<td>4B</td>
+		<td colspan="2" style="font-style: italic;">' . $concepto . '</td>
+		<td align="center">' . $horas . '</td>
+		<td align="center">' . $base_unit . '</td>
+		<td align="right">' . $importe . '</td>
+	</tr>
+	<tr><td colspan="5"></td></tr>
+	<tr>
+		<td colspan="3"></td>
+		<td align="right">IVA ' . $iva . '%</td>
+		<td align="right">' . $importe_iva . '</td>
 	</tr>
 	<tr>
-		<td></td>
-		<td bgcolor="#0000FF" color="yellow" align="center">A2 € &euro; &#8364; &amp; è &egrave;<br/>A2 € &euro; &#8364; &amp; è &egrave;</td>
-		<td bgcolor="#FFFF00" align="left"><font color="#FF0000">Red</font> Yellow BG</td>
-		<td>4C</td>
-	</tr>
-	<tr>
-		<td>1A</td>
-		<td rowspan="2" colspan="2" bgcolor="#FFFFCC">2AA<br />2AB<br />2AC</td>
-		<td bgcolor="#FF0000">4D</td>
-	</tr>
-	<tr>
-		<td>1B</td>
-		<td>4E</td>
-	</tr>
-	<tr>
-		<td>1C</td>
-		<td>2C</td>
-		<td>3C</td>
-		<td>4F</td>
+		<td colspan="3"></td>
+		<td align="right"><b>Total</b></td>
+		<td align="right"><b>' . $importe_total . ' €</b></td>
 	</tr>
 </table>';
 
@@ -140,14 +155,23 @@ $html = '<table border="1" cellspacing="0" cellpadding="5">
 $pdf->writeHTML($html, true, false, true, false, '');
 
 
+$pdf->SetFont('times', 'BI', 14);
+$pdf->Cell(0, 0, 'Forma de pago', 0, 1, 'L', 0, '', 1);
+
+$pdf->SetFont('times', 'I', 13);
+$pdf->Cell(0, 0, 'Transferencia bancaria', 0, 1, 'L', 0, '', 1);
+
+$pdf->Ln(5);
+
+// $pdf->SetFont('times', 'BI', 14);
+// $pdf->Cell(0, 0, 'Cuenta bancaria de pago', 0, 1, 'L', 0, '', 1);
+// $pdf->Ln(2);
+
+$pdf->SetFont('helvetica', '', 13);
+$pdf->Cell(0, 0, 'Banco Santander', 0, 1, 'L', 0, '', 1);
+$pdf->Cell(0, 0, 'IBAN ES2400491607622190164433', 0, 1, 'L', 0, '', 1);
 
 
-
-
-
-$pdf->Cell(0, 0, 'Has trabajado ' . $horas . ' horas', 0, 1, 'C', 1, '', 0);
-
-$pdf->Cell(0, 0, ':)', 0, 1, 'C', 0, '', 0);
 
 
 // ---------------------------------------------------------

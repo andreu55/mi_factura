@@ -34,7 +34,7 @@ echo '<'.'?'.'xml version="1.0" encoding="UTF-8"'.'?'.'>';
           <div class="form-group row">
             <label for="example-number-input" class="col-2 col-form-label">Horas</label>
             <div class="col-10">
-              <input class="form-control" type="number" value="42" name="horas">
+              <input class="form-control" type="number" step="0.01" value="108.25" name="horas">
             </div>
           </div>
           <div class="form-group row">
