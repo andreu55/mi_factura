@@ -6,22 +6,26 @@ $iva = 21;
 $datos_taxo = ['B96735576', 'TAXO Valoración, S.L.', 'Avda. de Aragón 30 F 13'];
 
 if (isset($_POST['id'])) {
-	$id = $_POST['id'];
-	
+
+	$id = str_pad($_POST['id'],  3, "0", STR_PAD_LEFT);
+	$id_factura = $id . '/' . date('y');
+
 	$concepto = 'Desarrollo web';
-	
+
 	$horas = $_POST['horas'];
 	$base_unit = round(15, 2); // Lo que vale la hora
 	$importe = $horas * $base_unit;
-	
+
 	$importe_iva = round(($importe*$iva)/100, 2);
-	$importe_total = $importe_iva + $importe;
+	$importe_irpf = round(($importe * 0.07), 2);
+
+	$importe_total = $importe_iva + $importe - $importe_irpf;
 
 	$ftemp = explode('-', $_POST['fecha']);
 	$fecha = $ftemp[2] . "/" . $ftemp[1] . "/" . $ftemp[0];
 
-	$nombre_pdf = 'fac_' . $id . '.pdf';
-	
+	$nombre_pdf = 'fac_' . $id_factura . '.pdf';
+
 }
 
 // Include the main TCPDF library (search for installation path).
@@ -53,8 +57,8 @@ $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 // set some language-dependent strings (optional)
-if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
-	require_once(dirname(__FILE__).'/lang/eng.php');
+if (@file_exists(dirname(__FILE__).'/lang/spa.php')) {
+	require_once(dirname(__FILE__).'/lang/spa.php');
 	$pdf->setLanguageArray($l);
 }
 
@@ -78,7 +82,7 @@ $pdf->SetFont('times', 'B', 19);
 $pdf->Cell(90, 0, 'Andreu García Martínez', 0, 0, 'L', 0, '', 1);
 
 $pdf->SetFont('times', 'BI', 19);
-$pdf->Cell(90, 0, 'Fac. ' . $id, 0, 1, 'R', 0, '', 1);
+$pdf->Cell(90, 0, 'Fac. ' . $id_factura, 0, 1, 'R', 0, '', 1);
 
 $pdf->Cell(0, 0, '', 'T', 1); // Linea separadora
 // $pdf->Cell(0, 0, '', '', 1);
@@ -106,8 +110,8 @@ $pdf->SetFont('times', 'I', 15);
 $pdf->Cell(90, 0, 'NIF: ' . $datos_taxo[0], 0, 1, 'L', 0, '', 1);
 // $pdf->Cell(90, 0, 'Pagadero a la recepción', 0, 1, 'R', 0, '', 1);
 
-$pdf->Cell(90, 0, $datos_taxo[1], 0, 0, 'L', 0, '', 1);
-$pdf->Cell(90, 0, 'Vencimiento ' . $fecha, 0, 1, 'R', 0, '', 1);
+$pdf->Cell(90, 0, $datos_taxo[1], 0, 1, 'L', 0, '', 1);
+// $pdf->Cell(90, 0, 'Vencimiento ' . $fecha, 0, 1, 'R', 0, '', 1);
 
 
 $pdf->Cell(90, 0, $datos_taxo[2], 0, 1, 'L', 0, '', 1);
@@ -122,14 +126,14 @@ $html = '<style>
 th {
 	border-bottom: 1px solid #000;
 	font-size: 15px;
-	color: #BBB;	
+	color: #B5B5B5;
 }
 </style>
 <table border="0" cellspacing="0" cellpadding="5">
 	<tr id="hola">
 		<th colspan="2">Concepto & Descripción</th>
 		<th align="center">Cant.</th>
-		<th align="center">Base Unit.</th>
+		<th align="center">Precio</th>
 		<th align="right">Importe</th>
 	</tr>
 	<tr>
@@ -140,13 +144,20 @@ th {
 	</tr>
 	<tr><td colspan="5"></td></tr>
 	<tr>
-		<td colspan="3"></td>
-		<td align="right">IVA ' . $iva . '%</td>
-		<td align="right">' . $importe_iva . '</td>
+		<td colspan="2"></td>
+		<td colspan="2" align="right">Base imponible</td>
+		<td align="right">' . $importe . '</td>
 	</tr>
 	<tr>
-		<td colspan="3"></td>
-		<td align="right"><b>Total</b></td>
+	<td colspan="4" align="right">IVA ' . $iva . '%</td>
+	<td align="right">' . $importe_iva . '</td>
+	</tr>
+	<tr>
+		<td colspan="4" align="right">IRPF ' . 7 . '%</td>
+		<td align="right"> -' . $importe_irpf . '</td>
+	</tr>
+	<tr>
+		<td colspan="4" align="right"><b>Total</b></td>
 		<td align="right"><b>' . $importe_total . ' €</b></td>
 	</tr>
 </table>';
