@@ -16,10 +16,11 @@ if (isset($_POST['id'])) {
 	$base_unit = round(15, 2); // Lo que vale la hora
 	$importe = $horas * $base_unit;
 
-	$importe_iva = round(($importe*$iva)/100, 2);
-	$importe_irpf = round(($importe * 0.07), 2);
+	$base_imponible = number_format(($horas * $base_unit), 2);
+	$importe_iva = number_format(round(($importe*$iva)/100, 2), 2);
+	$importe_irpf = number_format(round(($importe * 0.07), 2), 2);
 
-	$importe_total = $importe_iva + $importe - $importe_irpf;
+	$importe_total = number_format(($importe_iva + $importe - $importe_irpf), 2);
 
 	$ftemp = explode('-', $_POST['fecha']);
 	$fecha = $ftemp[2] . "/" . $ftemp[1] . "/" . $ftemp[0];
@@ -146,7 +147,7 @@ th {
 	<tr>
 		<td colspan="2"></td>
 		<td colspan="2" align="right">Base imponible</td>
-		<td align="right">' . $importe . '</td>
+		<td align="right">' . $base_imponible . '</td>
 	</tr>
 	<tr>
 	<td colspan="4" align="right">IVA ' . $iva . '%</td>
