@@ -3,8 +3,6 @@
 $nombre_pdf = 'factura.pdf';
 $iva = 21;
 
-$datos_taxo = ['B96735576', 'TAXO Valoración, S.L.', 'Avda. de Aragón 30 F 13'];
-
 if (isset($_POST['id'])) {
 
 	$id = str_pad($_POST['id'],  3, "0", STR_PAD_LEFT);
@@ -26,6 +24,19 @@ if (isset($_POST['id'])) {
 	$fecha = $ftemp[2] . "/" . $ftemp[1] . "/" . $ftemp[0];
 
 	$nombre_pdf = 'fac_' . $id_factura . '.pdf';
+	
+	
+	switch ($_POST['cliente']) {
+		case '1':
+			$cliente = ['B96735576', 'TAXO Valoración, S.L.', 'Avda. de Aragón 30 F 13, Valencia'];
+			break;
+		case '2':
+			$cliente = ['B96735576', 'TAXO Valoración, S.L.', 'Avda. de Aragón 30 F 13, Valencia'];
+			break;
+		case '3':
+			$cliente = ['B98537004', 'Nemesis media, S.L', 'Calle Flora 1 9, Valencia'];
+			break;
+	}
 
 }
 
@@ -108,14 +119,14 @@ $pdf->Cell(90, 12, 'Fecha ' . $fecha, 0, 1, 'R', 0, '', 1);
 
 // Datos cliente aqui
 $pdf->SetFont('times', 'I', 15);
-$pdf->Cell(90, 0, 'NIF: ' . $datos_taxo[0], 0, 1, 'L', 0, '', 1);
+$pdf->Cell(90, 0, 'NIF: ' . $cliente[0], 0, 1, 'L', 0, '', 1);
 // $pdf->Cell(90, 0, 'Pagadero a la recepción', 0, 1, 'R', 0, '', 1);
 
-$pdf->Cell(90, 0, $datos_taxo[1], 0, 1, 'L', 0, '', 1);
+$pdf->Cell(90, 0, $cliente[1], 0, 1, 'L', 0, '', 1);
 // $pdf->Cell(90, 0, 'Vencimiento ' . $fecha, 0, 1, 'R', 0, '', 1);
 
 
-$pdf->Cell(90, 0, $datos_taxo[2], 0, 1, 'L', 0, '', 1);
+$pdf->Cell(90, 0, $cliente[2], 0, 1, 'L', 0, '', 1);
 
 $pdf->Ln(15);
 $pdf->SetFont('helvetica', '', 15);
