@@ -125,7 +125,9 @@
   
   <script type="text/javascript">
   $(document).ready(function() {
-    $('#tabla_facturas').DataTable();
+    $('#tabla_facturas').DataTable({
+        "order": [[ 0, "desc" ]]
+    });
   });
   </script>
   
