@@ -59,7 +59,9 @@ if (isset($_POST['id'])) {
 	$ftemp = explode('-', $_POST['fecha']);
 	$fecha = $ftemp[2] . "/" . $ftemp[1] . "/" . $ftemp[0];
 
-	$nombre_pdf = 'fac_' . $id_factura . '.pdf';
+
+	$id_nombre_factura = $id . '-' . date('y');
+	$nombre_pdf = 'fac_' . $id_nombre_factura . '.pdf';
 }
 
 // Include the main TCPDF library (search for installation path).
