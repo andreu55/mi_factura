@@ -2,21 +2,57 @@
 
 $nombre_pdf = 'factura.pdf';
 $iva = 21;
+$ret_irpf = 7;
 
 if (isset($_POST['id'])) {
 
+	$concepto = $_POST['concepto'];
+
+	if (!$concepto) {
+		$concepto = 'Desarrollo web';
+		// $concepto = 'Consultoría informática';
+	}
+
+	switch ($_POST['cliente']) {
+		// $cliente = ['B98893639', 'O´Clock Digital Solutions S.L.', 'Avenida Aragón, 30 Bajo', '46021, Valencia'];
+		case '1': $cliente = ['B98893639', 'O´Clock Digital Solutions S.L.', 'Avenida Aragón, 30 Bajo, Valencia']; break;
+		case '2': $cliente = ['B96735576', 'TAXO Valoración, S.L.', 'Avda. de Aragón 30 F 13, Valencia']; break;
+		case '3': $cliente = ['B98537004', 'Nemesis media, S.L', 'Calle Flora 1 9, Valencia']; break;
+		case '4': $cliente = ['15255691K', 'Jose Ángel Rodriguez González', 'Avenida Aragón, 30 Bajo, Valencia']; break;
+	}
+
+	$ultimo_char_nif = substr($cliente[0], -1);
+
+	// Si no es numeric es una persona física (asique no le retenemos irpf)
+	if (!is_numeric($ultimo_char_nif)) { $ret_irpf = 0; }
+
+	// Rellenado de ceros hacia la izquierda
 	$id = str_pad($_POST['id'],  3, "0", STR_PAD_LEFT);
 	$id_factura = $id . '/' . date('y');
 
-	$concepto = 'Desarrollo web';
 
-	$horas = $_POST['horas'];
-	$base_unit = round(15, 2); // Lo que vale la hora
-	$importe = $horas * $base_unit;
+	$precio = $_POST['precio'];
 
-	$base_imponible = number_format(($horas * $base_unit), 2);
+	// Si le ponemos las horas cobramos por hora
+	if ($_POST['horas']) {
+		$horas = $_POST['horas'];
+		$base_unit = round($precio, 2); // Lo que vale la hora
+		$importe = $horas * $base_unit;
+		$cabecera_tabla = ["Concepto & Descripción", "Cant.", "Precio", "Importe"];
+	}
+
+	// Sino tiene horas es una cantidad fija
+	else {
+		$importe = $precio;
+		$horas = '';
+		$base_unit = '';
+		$cabecera_tabla = ["Concepto & Descripción", "", "", "Importe"];
+	}
+
+
+	$base_imponible = number_format(($importe), 2);
 	$importe_iva = number_format(round(($importe*$iva)/100, 2), 2);
-	$importe_irpf = number_format(round(($importe * 0.07), 2), 2);
+	$importe_irpf = number_format(round(($importe*$ret_irpf)/100, 2), 2);
 
 	$importe_total = number_format(($importe_iva + $importe - $importe_irpf), 2);
 
@@ -24,20 +60,6 @@ if (isset($_POST['id'])) {
 	$fecha = $ftemp[2] . "/" . $ftemp[1] . "/" . $ftemp[0];
 
 	$nombre_pdf = 'fac_' . $id_factura . '.pdf';
-	
-	
-	switch ($_POST['cliente']) {
-		case '1':
-			$cliente = ['B96735576', 'TAXO Valoración, S.L.', 'Avda. de Aragón 30 F 13, Valencia'];
-			break;
-		case '2':
-			$cliente = ['B96735576', 'TAXO Valoración, S.L.', 'Avda. de Aragón 30 F 13, Valencia'];
-			break;
-		case '3':
-			$cliente = ['B98537004', 'Nemesis media, S.L', 'Calle Flora 1 9, Valencia'];
-			break;
-	}
-
 }
 
 // Include the main TCPDF library (search for installation path).
@@ -128,11 +150,18 @@ $pdf->Cell(90, 0, $cliente[1], 0, 1, 'L', 0, '', 1);
 
 $pdf->Cell(90, 0, $cliente[2], 0, 1, 'L', 0, '', 1);
 
+if (isset($cliente[3]) && $cliente[3]) {
+	$pdf->Cell(90, 0, $cliente[3], 0, 1, 'L', 0, '', 1);
+}
+
+
 $pdf->Ln(15);
 $pdf->SetFont('helvetica', '', 15);
 
 // bgcolor="#cccccc" colspan="2" rowspan="2"
 // font-weight: bold;
+
+
 
 $html = '<style>
 th {
@@ -143,10 +172,10 @@ th {
 </style>
 <table border="0" cellspacing="0" cellpadding="5">
 	<tr id="hola">
-		<th colspan="2">Concepto & Descripción</th>
-		<th align="center">Cant.</th>
-		<th align="center">Precio</th>
-		<th align="right">Importe</th>
+		<th colspan="2">' . $cabecera_tabla[0] . '</th>
+		<th align="center">' . $cabecera_tabla[1] . '</th>
+		<th align="center">' . $cabecera_tabla[2] . '</th>
+		<th align="right">' . $cabecera_tabla[3] . '</th>
 	</tr>
 	<tr>
 		<td colspan="2" style="font-style: italic;">' . $concepto . '</td>
@@ -165,7 +194,7 @@ th {
 	<td align="right">' . $importe_iva . '</td>
 	</tr>
 	<tr>
-		<td colspan="4" align="right">IRPF ' . 7 . '%</td>
+		<td colspan="4" align="right">IRPF ' . $ret_irpf . '%</td>
 		<td align="right"> -' . $importe_irpf . '</td>
 	</tr>
 	<tr>
