@@ -90,10 +90,8 @@
 
         <?php
 
-        $base_total = 0;
-        $iva_total = 0;
-        $irpf_total = 0;
-        $total_total = 0;
+        $base_total = $iva_total = $irpf_total = $total_total = 0;
+        $base_total_pend = $iva_total_pend = $irpf_total_pend = $total_total_pend = 0;
 
         ?>
 
@@ -121,11 +119,17 @@
                 $irpf = round(($base*$ret_irpf)/100, 2);
                 $total = round($iva + $base - $irpf, 2);
 
-
-                $base_total += $base;
-                $iva_total += $iva;
-                $irpf_total += $irpf;
-                $total_total += $total;
+                if ($f[5]) {
+                  $base_total += $base;
+                  $iva_total += $iva;
+                  $irpf_total += $irpf;
+                  $total_total += $total;
+                } else {
+                  $base_total_pend += $base;
+                  $iva_total_pend += $iva;
+                  $irpf_total_pend += $irpf;
+                  $total_total_pend += $total;
+                }
               ?>
 
               <tr style="background-color:<?= $f[5] ? "#dff0d8" : "#FFE5E5" ?>">
@@ -146,10 +150,18 @@
               <th></th>
               <th></th>
               <th></th>
-              <th><?= $base_total ?> €</th>
-              <th class="text-danger"><?= $iva_total ?></th>
-              <th class="text-info"><?= $irpf_total ?></th>
-              <th><?= $total_total ?> €</th>
+              <th>
+                <span class="text-success"><?=$base_total?></span> / <span class="text-danger"><?=$base_total_pend?></span>
+              </th>
+              <th>
+                <span class="text-warning"><?=$iva_total?></span> / <span class="text-danger"><?=$iva_total_pend?></span>
+              </th>
+              <th>
+                <span class="text-info"><?=$irpf_total?></span> / <span class="text-danger"><?=$irpf_total_pend?></span>
+              </th>
+              <th>
+                <span class="text-default"><?=$total_total?></span> / <span class="text-danger"><?=$total_total_pend?></span>
+              </th>
             </tr>
           </tfoot>
         </table>
