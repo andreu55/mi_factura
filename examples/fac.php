@@ -50,11 +50,10 @@ if (isset($_POST['id'])) {
 	}
 
 
-	$base_imponible = number_format(($importe), 2);
-	$importe_iva = number_format(round(($importe*$iva)/100, 2), 2);
-	$importe_irpf = number_format(round(($importe*$ret_irpf)/100, 2), 2);
-
-	$importe_total = number_format(($importe_iva + $importe - $importe_irpf), 2);
+	$base_imponible = $importe;
+	$importe_iva = round(($base_imponible*$iva)/100, 2);
+	$importe_irpf = round(($base_imponible*$ret_irpf)/100, 2);
+	$importe_total = $base_imponible + $importe_iva - $importe_irpf;
 
 	$ftemp = explode('-', $_POST['fecha']);
 	$fecha = $ftemp[2] . "/" . $ftemp[1] . "/" . $ftemp[0];
@@ -189,19 +188,19 @@ th {
 	<tr>
 		<td colspan="2"></td>
 		<td colspan="2" align="right">Base imponible</td>
-		<td align="right">' . $base_imponible . '</td>
+		<td align="right">' . number_format(($base_imponible), 2) . '</td>
 	</tr>
 	<tr>
 	<td colspan="4" align="right">IVA ' . $iva . '%</td>
-	<td align="right">' . $importe_iva . '</td>
+	<td align="right">' . number_format(($importe_iva), 2) . '</td>
 	</tr>
 	<tr>
 		<td colspan="4" align="right">IRPF ' . $ret_irpf . '%</td>
-		<td align="right"> -' . $importe_irpf . '</td>
+		<td align="right"> -' . number_format(($importe_irpf), 2) . '</td>
 	</tr>
 	<tr>
 		<td colspan="4" align="right"><b>Total</b></td>
-		<td align="right"><b>' . $importe_total . ' €</b></td>
+		<td align="right"><b>' . number_format(($importe_total), 2) . ' €</b></td>
 	</tr>
 </table>';
 
