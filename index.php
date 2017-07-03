@@ -9,6 +9,9 @@
   <meta name="author" content="Andreu garcía" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+
+  <?php include 'facturas.php'; ?>
+
 </head>
 
 <body>
@@ -27,7 +30,7 @@
               <div class="form-group row">
                 <label for="id" class="col-2 col-form-label">ID factura</label>
                 <div class="col-10">
-                  <input class="form-control" type="text" value="4" name="id">
+                  <input class="form-control" type="text" value="<?= count($facturas) + 1 ?>" name="id">
                 </div>
               </div>
               <div class="form-group row">
@@ -86,8 +89,6 @@
         <br>
         <br>
 
-        <?php include 'facturas.php'; ?>
-
         <?php
 
         $base_total = $iva_total = $irpf_total = $total_total = 0;
@@ -136,7 +137,7 @@
                 <td><?=$f[0]?></td>
                 <td><?=$f[1]?></td>
                 <td><?=$f[2]?></td>
-                <td><?=$f[3]?></td>
+                <td><?=$f[3]?> <small><em>x <?=$f[4]?></em></small></td>
                 <td><?= $base ?></td>
                 <td>+<?= $iva ?></td>
                 <td>-<?= $irpf ?></td>
