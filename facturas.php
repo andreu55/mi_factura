@@ -9,11 +9,12 @@ $facturas_array = [
 ];
 
 $gastos_array = [
-  ['01/07/2017', '42.07', '0.21', 'Vodafone'],
-  ['06/07/2017', '94.90', '0.21', 'Pc Componentes'],
-  ['11/07/2017', '8.70', '0.21', 'Café'],
-  ['12/07/2017', '3', '0.21', 'Café'],
-  ['13/07/2017', '6', '0.21', 'Café'],
+  ['01/07/2017', '42.07', '0.21', 'Vodafone', 'servicios'],
+  ['06/07/2017', '94.90', '0.21', 'PcComponentes', 'hardware'],
+  ['11/07/2017', '8.70', '0.21', 'Almuerzo', 'restaurantes'],
+  ['12/07/2017', '3', '0.21', 'Almuerzo', 'restaurantes'],
+  ['13/07/2017', '6', '0.21', 'Almuerzo', 'restaurantes'],
+  ['14/07/2017', '9.6', '0.21', 'Chivito', 'restaurantes'],
 ];
 
 
@@ -34,4 +35,5 @@ foreach ($gastos_array as $i => $g) {
   $gastos[$i]->cantidad = $g[1];
   $gastos[$i]->iva = $g[2];
   $gastos[$i]->concepto = $g[3];
+  $gastos[$i]->tipo = $g[4];
 }
