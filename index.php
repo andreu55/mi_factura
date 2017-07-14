@@ -8,6 +8,7 @@
   <meta name="description" content="For generating PDF documents on the fly" />
   <meta name="author" content="Andreu garcía" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
 
   <?php include 'facturas.php'; ?>
@@ -34,7 +35,10 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label for="horas" class="col-2 col-form-label" data-toggle="tooltip" data-placement="left" title="Dejar a 0 para consierar el precio como valor final">Horas</label>
+                <label for="horas" class="col-2 col-form-label">
+                  Horas
+                  <i class="fa fa-fw fa-question-circle text-muted" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Dejar a 0 para consierar el precio como valor final"></i>
+                </label>
                 <div class="col-10">
                   <input class="form-control" type="number" step="0.01" value="100" name="horas">
                 </div>
@@ -97,30 +101,39 @@
         ?>
 
         <table id="tabla_facturas" class="display" cellspacing="0" width="100%">
-          <thead><tr><th>Fac.</th><th>Cliente</th><th>Fecha</th><th>Horas</th><th>Base</th><th>IVA</th><th>IRPF</th><th>Importe</th></tr></thead>
+          <thead><tr>
+            <th>Fac.</th>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Horas</th>
+            <th>Base</th>
+            <th>IVA</th>
+            <th>IRPF</th>
+            <th>Importe</th>
+          </tr></thead>
           <tbody>
             <?php foreach ($facturas as $key => $f): ?>
 
               <?php
 
                 // Si es persona física, no le retenemos IRPF
-                if ($f[6]) { $ret_irpf = 0; }
+                if ($f->persona_fisica) { $ret_irpf = 0; }
                 else { $ret_irpf = 7; }
 
                 // Si hemos especificado horas, calculamos el importe
-                if ($f[3]) {
-                  $base = round($f[3] * $f[4], 2);
+                if ($f->horas) {
+                  $base = round($f->horas * $f->precio, 2);
                 }
                 // Sino, suponemos que lo que pone en precio es el precio final
                 else {
-                  $base = round($f[4], 2);
+                  $base = round($f->precio, 2);
                 }
 
                 $iva = round(($base * 0.21), 2);
                 $irpf = round(($base*$ret_irpf)/100, 2);
                 $total = round($iva + $base - $irpf, 2);
 
-                if ($f[5]) {
+                if ($f->pagada) {
                   $base_total += $base;
                   $iva_total += $iva;
                   $irpf_total += $irpf;
@@ -133,11 +146,11 @@
                 }
               ?>
 
-              <tr style="background-color:<?= $f[5] ? "#dff0d8" : "#FFE5E5" ?>">
-                <td><?=$f[0]?></td>
-                <td><?=$f[1]?></td>
-                <td><?=$f[2]?></td>
-                <td><?=$f[3]?> <small><em>x <?=$f[4]?></em></small></td>
+              <tr style="background-color:<?= $f->pagada ? "#dff0d8" : "#FFE5E5" ?>">
+                <td><?=$f->id?></td>
+                <td><?=$f->cliente?></td>
+                <td><?=$f->fecha?></td>
+                <td><?=$f->horas?> <small><em>x <?=$f->precio?></em></small></td>
                 <td><?= $base ?></td>
                 <td>+<?= $iva ?></td>
                 <td>-<?= $irpf ?></td>
@@ -151,24 +164,91 @@
               <th></th>
               <th></th>
               <th></th>
-              <th>
-                <span class="text-success"><?=$base_total?></span> / <span class="text-danger"><?=$base_total_pend?></span>
-              </th>
-              <th>
-                <span class="text-warning"><?=$iva_total?></span> / <span class="text-danger"><?=$iva_total_pend?></span>
-              </th>
-              <th>
-                <span class="text-info"><?=$irpf_total?></span> / <span class="text-danger"><?=$irpf_total_pend?></span>
-              </th>
-              <th>
-                <span class="text-default"><?=$total_total?></span> / <span class="text-danger"><?=$total_total_pend?></span>
-              </th>
+              <th><span class="text-success"><?=$base_total?></span> / <span class="text-danger"><?=$base_total_pend?></span></th>
+              <th><span class="text-warning"><?=$iva_total?></span> / <span class="text-danger"><?=$iva_total_pend?></span></th>
+              <th><span class="text-info"><?=$irpf_total?></span> / <span class="text-danger"><?=$irpf_total_pend?></span></th>
+              <th><span class="text-default"><?=$total_total?></span> / <span class="text-danger"><?=$total_total_pend?></span></th>
             </tr>
           </tfoot>
         </table>
 
       </div>
     </div>
+
+    <br><br>
+
+    <div class="row">
+      <div class="col-8">
+        <h3>Gastos</h3>
+        <table class="table table-sm">
+          <thead><tr>
+            <th>Fecha</th>
+            <th>Cantidad</th>
+            <th>Base</th>
+            <th>IVA</th>
+            <th>Concepto</th>
+          </tr></thead>
+          <tbody>
+
+            <?php
+              $cantidad_total = $iva_total_gastos = $base_total_gastos = 0;
+            ?>
+
+            <?php foreach ($gastos as $key => $g): ?>
+
+              <?php
+
+                // Sacamos la base sabiendo el iva y el total
+                $base = round(($g->cantidad / (1 + $g->iva)), 2);
+                // Con esa base, sacamos el iva del gasto
+                $iva = round(($base * $g->iva), 2);
+
+                $cantidad_total += $g->cantidad;
+                $base_total_gastos += $base;
+                $iva_total_gastos += $iva;
+              ?>
+
+              <tr>
+                <th scope="row"><small><?=$g->fecha?></small></th>
+                <td><?=number_format($g->cantidad, 2)?></td>
+                <td><?=number_format($base, 2)?></td>
+                <td><?=number_format($iva, 2)?> <small class="text-muted">(<?=$g->iva?>)</small></td>
+                <td><small><?=$g->concepto?></small></td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th></th>
+              <th><span class="text-info"><?=$cantidad_total?></span></th>
+              <th><span class="text-warning"><?=$base_total_gastos?></span></th>
+              <th><span class="text-success"><?=$iva_total_gastos?></span></th>
+              <th></th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="col-4">
+        <h3>Overview</h3>
+        <ul class="list-group">
+          <li class="list-group-item justify-content-between">
+            IVA recibido
+            <span class="badge badge-info badge-pill"><?=number_format($iva_total, 2, ".", "")?> €</span>
+          </li>
+          <li class="list-group-item justify-content-between">
+            IVA desgrable
+            <span class="badge badge-success badge-pill"><?=number_format($iva_total_gastos, 2, ".", "")?> €</span>
+          </li>
+          <li class="list-group-item justify-content-between">
+            IVA Total
+            <span class="badge badge-danger badge-pill"><?= number_format(($iva_total - $iva_total_gastos), 2, ".", "") ?> €</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <br><br>
+
   </div>
 
 

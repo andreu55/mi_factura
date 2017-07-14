@@ -1,32 +1,37 @@
 
 <?php
 
-// "001/17", Num factura [0]
-// "Jose Ángel Rodriguez", Cliente [1]
-// "30/04/2017", Fecha [2]
-// "2000", Cantidad / Horas [3]
-// "0", Precio por hora / Precio final (si 'cantidad' = 0) [4]
-// "1" Pagada? [5]
-// "1" Persona fisica? (Para retener irpf o no!) [6]
+$facturas_array = [
+  ["001/17", "Jose Ángel Rodriguez", "30/04/2017", "0", "2000", "1", "1"],
+  ["002/17", "Taxo Valoración", "30/04/2017", "100", "51", "1", "0"],
+  ["003/17", "Taxo Valoración", "30/05/2017", "100", "51", "1", "0"],
+  ["004/17", "O'Clock Digital", "30/06/2017", "90", "15", "0", "0"],
+];
 
-$facturas = [
-              ["001/17", "Jose Ángel Rodriguez", "30/04/2017", "0", "2000", "1", "1"],
-              ["002/17", "Taxo Valoración", "01/06/2017", "100", "51", "1", "0"],
-              ["003/17", "Taxo Valoración", "20/06/2017", "100", "51", "1", "0"],
-              
-              ["004/17", "O'Clock Digital", "01/07/2017", "90", "15", "0", "0"],
-
-              // Las que habia emitido pero ya no valen
-              // ["Recalc.2", "O'Clock Digital", "30/04/2017", "0", "1600", "0", "0"],
-              // ["Recalc.3", "O'Clock Digital", "18/05/2017", "125", "15", "0", "0"],
-              // ["Recalc.4", "O'Clock Digital", "31/05/2017", "110", "15", "0", "0"],
+$gastos_array = [
+  ['01/07/2017', '42.07', '0.21', 'Vodafone'],
+  ['06/07/2017', '94.90', '0.21', 'Pc Componentes'],
+  ['11/07/2017', '8.70', '0.21', 'Café'],
+  ['12/07/2017', '3', '0.21', 'Café'],
+  ['13/07/2017', '6', '0.21', 'Café'],
+];
 
 
-              // Las que deberían ser (pero no son)
-              // ["Prof", "O'Clock Digital", "30/01/2017", "100", "15", "0", "0"],
-              // ["Prof", "O'Clock Digital", "30/02/2017", "100", "15", "0", "0"],
-              // ["Prof", "O'Clock Digital", "30/03/2017", "80", "15", "0", "0"],
-              // ["Prof", "O'Clock Digital", "30/04/2017", "85", "15", "1", "0"],
+foreach ($facturas_array as $i => $f) {
+  $facturas[$i] = new stdClass;
+  $facturas[$i]->id = $f[0]; // Num factura
+  $facturas[$i]->cliente = $f[1];
+  $facturas[$i]->fecha = $f[2];
+  $facturas[$i]->horas = $f[3]; // Cantidad / Horas
+  $facturas[$i]->precio = $f[4]; // Precio por hora / Precio final (si 'cantidad' = 0)
+  $facturas[$i]->pagada = $f[5]; // Pagada?
+  $facturas[$i]->persona_fisica = $f[6]; // Persona fisica? (Para retener irpf o no!)
+}
 
-
-          ];
+foreach ($gastos_array as $i => $g) {
+  $gastos[$i] = new stdClass;
+  $gastos[$i]->fecha = $g[0];
+  $gastos[$i]->cantidad = $g[1];
+  $gastos[$i]->iva = $g[2];
+  $gastos[$i]->concepto = $g[3];
+}
