@@ -30,7 +30,15 @@
         ?>
 
         <br>
-        <h1>Hola, Andreu <small class="pull-right text-muted"><?=$trimestre?>º Trimestre</small></h1>
+        <h1>
+          Hola, Andreu 
+          <small class="pull-right text-muted">
+            <?=$trimestre?>º Trimestre
+            <button class="btn btn-sm btn-info" type="button" onclick="toggle_trimestre(<?=$trimestre?>)">
+              <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </button>
+          </small>
+        </h1>
         <br>
 
 
@@ -136,7 +144,7 @@
             ?>
             
             <?php if ($$total_total): ?>
-              <tfoot>
+              <tfoot class="trim_<?=$i?>">
                 <tr>
                   <th></th>
                   <th colspan="3" class="text-right"><?=$i?>º Trimestre</th>
@@ -265,7 +273,7 @@
             ?>
             
             <?php if ($$iva_total_gastos): ?>
-              <tfoot>
+              <tfoot class="trim_<?=$i?>">
                 <tr>
                   <th><?=$i?>º trim</th>
                   <th><span class="text-info"><?=$$cantidad_total?></span></th>
@@ -290,7 +298,7 @@
             <?php $iva_total_gastos = 'iva_total_gastos_' . $i; ?>
 
             <?php if ($$iva_total || $$iva_total_gastos): ?>
-              <li class="list-group-item justify-content-between">
+              <li class="list-group-item justify-content-between trim_<?=$i?>">
                 <b><?=$i?>º trim.</b>
                 <?= $$iva_total . " - " . $$iva_total_gastos?>
                 <span class="badge badge-success badge-pill"><?= number_format(($$iva_total - $$iva_total_gastos), 2, ".", "") ?> €</span>
@@ -441,6 +449,13 @@
       var chart = new google.visualization.PieChart(document.getElementById('chart_div2'));
       chart.draw(data, options);
     }
+    
+    function toggle_trimestre(i) {
+      if (i != 1) { $('.trim_1').toggle(); }
+      if (i != 2) { $('.trim_2').toggle(); }
+      if (i != 3) { $('.trim_3').toggle(); }
+      if (i != 4) { $('.trim_4').toggle(); }
+    }
 
     $(document).ready(function() {
 
@@ -448,7 +463,8 @@
       $('#tabla_facturas').DataTable({
           "order": [[ 0, "desc" ]]
       });
-
+      
+      toggle_trimestre(<?=$trimestre?>);
 
       // Cargamos los tooltips
       $('[data-toggle="tooltip"]').tooltip();
