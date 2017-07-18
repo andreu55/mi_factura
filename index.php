@@ -292,7 +292,7 @@
             <?php if ($$iva_total || $$iva_total_gastos): ?>
               <li class="list-group-item justify-content-between">
                 <b><?=$i?>º trim.</b>
-                <?= number_format($$iva_total, 2, ".", "") . " - " . number_format($$iva_total_gastos, 2, ".", "")?>
+                <?= $$iva_total . " - " . $$iva_total_gastos?>
                 <span class="badge badge-success badge-pill"><?= number_format(($$iva_total - $$iva_total_gastos), 2, ".", "") ?> €</span>
               </li>
             <?php endif; ?>
