@@ -8,14 +8,30 @@ $facturas_array = [
   ["004/17", "O'Clock Digital", "30/06/2017", "90", "15", "0", "0"],
 ];
 
-$gastos_array = [
+$servicios = [
   ['01/07/2017', '42.07', '0.21', 'Vodafone', 'servicios'],
-  ['06/07/2017', '94.90', '0.21', 'PcComponentes', 'hardware'],
-  ['11/07/2017', '8.70', '0.21', 'Almuerzo', 'restaurantes'],
-  ['12/07/2017', '3', '0.21', 'Almuerzo', 'restaurantes'],
-  ['13/07/2017', '6', '0.21', 'Almuerzo', 'restaurantes'],
-  ['14/07/2017', '9.6', '0.21', 'Chivito', 'restaurantes'],
 ];
+
+$hardware = [
+  ['06/07/2017', '94.90', '0.21', 'PcComponentes HDD Solido', 'hardware'],
+  ['06/07/2017', '139', '0.21', 'Amazon Pantalla', 'hardware'],
+];
+
+$restaurantes = [
+  ['03/07/2017', '2.70', '0.10', 'Almuerzo', 'restaurantes'],
+  ['04/07/2017', '12', '0.10', 'Almuerzo', 'restaurantes'],
+  ['06/07/2017', '3', '0.10', 'Almuerzo', 'restaurantes'],
+  ['07/07/2017', '3', '0.10', 'Almuerzo', 'restaurantes'],
+  ['11/07/2017', '8.70', '0.10', 'Almuerzo', 'restaurantes'],
+  ['12/07/2017', '3', '0.10', 'Almuerzo', 'restaurantes'],
+  ['13/07/2017', '6', '0.10', 'Almuerzo', 'restaurantes'],
+  ['14/07/2017', '9.6', '0.10', 'Chivito', 'restaurantes'],
+  ['17/07/2017', '5.7', '0.10', 'Almuerzo', 'restaurantes'],
+  ['18/07/2017', '3', '0.10', 'Almuerzo', 'restaurantes'],
+];
+
+
+$gastos_array = array_merge($servicios, $hardware, $restaurantes);
 
 
 foreach ($facturas_array as $i => $f) {
@@ -36,4 +52,12 @@ foreach ($gastos_array as $i => $g) {
   $gastos[$i]->iva = $g[2];
   $gastos[$i]->concepto = $g[3];
   $gastos[$i]->tipo = $g[4];
+}
+
+function trimestre($datetime)
+{
+  $mes = date("m",strtotime($datetime));
+  $mes = is_null($mes) ? date('m') : $mes;
+  $trim = floor(($mes-1) / 3)+1;
+  return $trim;
 }

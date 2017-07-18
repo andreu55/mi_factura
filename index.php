@@ -20,16 +20,19 @@
     <div class="row">
       <div class="col-12">
 
-        <br>
-        <h1>Hola, Andreu</h1>
-        <br>
-
         <?php
-
-        $base_total = $iva_total = $irpf_total = $total_total = 0;
-        $base_total_pend = $iva_total_pend = $irpf_total_pend = $total_total_pend = 0;
-
+          $base_total_1 = $iva_total_1 = $irpf_total_1 = $total_total_1 = 0;
+          $base_total_2 = $iva_total_2 = $irpf_total_2 = $total_total_2 = 0;
+          $base_total_3 = $iva_total_3 = $irpf_total_3 = $total_total_3 = 0;
+          $base_total_4 = $iva_total_4 = $irpf_total_4 = $total_total_4 = 0;
+          $base_total_pend = $iva_total_pend = $irpf_total_pend = $total_total_pend = 0;
+          $trimestre = trimestre(date('Y-m-d H:i:s'));        
         ?>
+
+        <br>
+        <h1>Hola, Andreu <small class="pull-right text-muted"><?=$trimestre?>º Trimestre</small></h1>
+        <br>
+
 
         <table id="tabla_facturas" class="display" cellspacing="0" width="100%">
           <thead><tr>
@@ -65,10 +68,42 @@
                 $total = round($iva + $base - $irpf, 2);
 
                 if ($f->pagada) {
-                  $base_total += $base;
-                  $iva_total += $iva;
-                  $irpf_total += $irpf;
-                  $total_total += $total;
+                  
+                  $fecha = DateTime::createFromFormat('d/m/Y', $f->fecha)->format('Y-m-d H:i:s');
+                  
+                  switch (trimestre($fecha)) {
+                    case '1':
+                      $base_total_1 += $base;
+                      $iva_total_1 += $iva;
+                      $irpf_total_1 += $irpf;
+                      $total_total_1 += $total;
+                      break;
+                    
+                    case '2':
+                      $base_total_2 += $base;
+                      $iva_total_2 += $iva;
+                      $irpf_total_2 += $irpf;
+                      $total_total_2 += $total;
+                      break;
+                      
+                    case '3':
+                      $base_total_3 += $base;
+                      $iva_total_3 += $iva;
+                      $irpf_total_3 += $irpf;
+                      $total_total_3 += $total;
+                      break;
+                      
+                    case '4':
+                      $base_total_4 += $base;
+                      $iva_total_4 += $iva;
+                      $irpf_total_4 += $irpf;
+                      $total_total_4 += $total;
+                      break;
+                    
+                    default:
+                      echo "OJO";
+                      break;
+                  }
                 } else {
                   $base_total_pend += $base;
                   $iva_total_pend += $iva;
@@ -89,18 +124,44 @@
               </tr>
             <?php endforeach; ?>
           </tbody>
-          <tfoot>
-            <tr>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th><span class="text-success"><?=$base_total?></span> / <span class="text-danger"><?=$base_total_pend?></span></th>
-              <th><span class="text-warning"><?=$iva_total?></span> / <span class="text-danger"><?=$iva_total_pend?></span></th>
-              <th><span class="text-info"><?=$irpf_total?></span> / <span class="text-danger"><?=$irpf_total_pend?></span></th>
-              <th><span class="text-default"><?=$total_total?></span> / <span class="text-danger"><?=$total_total_pend?></span></th>
-            </tr>
-          </tfoot>
+          
+          <!-- Recorremos los 4 trimestres -->
+          <?php for ($i=1; $i <= 4 ; $i++): ?>
+            
+            <?php 
+              $base_total = 'base_total_' . $i;
+              $iva_total = 'iva_total_' . $i;
+              $irpf_total = 'irpf_total_' . $i;
+              $total_total = 'total_total_' . $i;
+            ?>
+            
+            <?php if ($$total_total): ?>
+              <tfoot>
+                <tr>
+                  <th></th>
+                  <th colspan="3" class="text-right"><?=$i?>º Trimestre</th>
+                  <th><span class="text-success"><?=$$base_total?></span></th>
+                  <th><span class="text-warning"><?=$$iva_total?></span></th>
+                  <th><span class="text-info"><?=$$irpf_total?></span></th>
+                  <th><span class="text-default"><?=$$total_total?></span></th>
+                </tr>
+              </tfoot>
+            <?php endif; ?>
+          <?php endfor ?>
+          
+          <!-- Si hay pendientes los mostramos -->
+          <?php if ($total_total_pend): ?>
+            <tfoot>
+              <tr>
+                <th></th>
+                <th colspan="3" class="text-right">Pendiente</th>
+                <th><span class="text-danger"><?=$base_total_pend?></span></th>
+                <th><span class="text-danger"><?=$iva_total_pend?></span></th>
+                <th><span class="text-danger"><?=$irpf_total_pend?></span></th>
+                <th><span class="text-danger"><?=$total_total_pend?></span></th>
+              </tr>
+            </tfoot>
+          <?php endif; ?>
         </table>
 
       </div>
@@ -122,7 +183,10 @@
           <tbody>
 
             <?php
-              $cantidad_total = $iva_total_gastos = $base_total_gastos = 0;
+              $cantidad_total_1 = $iva_total_gastos_1 = $base_total_gastos_1 = 0;
+              $cantidad_total_2 = $iva_total_gastos_2 = $base_total_gastos_2 = 0;
+              $cantidad_total_3 = $iva_total_gastos_3 = $base_total_gastos_3 = 0;
+              $cantidad_total_4 = $iva_total_gastos_4 = $base_total_gastos_4 = 0;
               $cant_tipos_gasto = $suma_tipos_gasto = [];
             ?>
 
@@ -145,10 +209,41 @@
                 $base = round(($g->cantidad / (1 + $g->iva)), 2);
                 // Con esa base, sacamos el iva del gasto
                 $iva = round(($base * $g->iva), 2);
+                
+                
+                
+                $fecha = DateTime::createFromFormat('d/m/Y', $g->fecha)->format('Y-m-d H:i:s');
+                
+                switch (trimestre($fecha)) {
+                  case '1':
+                    $cantidad_total_1 += $g->cantidad;
+                    $base_total_gastos_1 += $base;
+                    $iva_total_gastos_1 += $iva;
+                    break;
+                  
+                  case '2':
+                    $cantidad_total_2 += $g->cantidad;
+                    $base_total_gastos_2 += $base;
+                    $iva_total_gastos_2 += $iva;
+                    break;
+                    
+                  case '3':
+                    $cantidad_total_3 += $g->cantidad;
+                    $base_total_gastos_3 += $base;
+                    $iva_total_gastos_3 += $iva;
+                    break;
+                    
+                  case '4':
+                    $cantidad_total_4 += $g->cantidad;
+                    $base_total_gastos_4 += $base;
+                    $iva_total_gastos_4 += $iva;
+                    break;
+                  
+                  default:
+                    echo "OJO";
+                    break;
+                }
 
-                $cantidad_total += $g->cantidad;
-                $base_total_gastos += $base;
-                $iva_total_gastos += $iva;
               ?>
 
               <tr>
@@ -160,33 +255,51 @@
               </tr>
             <?php endforeach; ?>
           </tbody>
-          <tfoot>
-            <tr>
-              <th></th>
-              <th><span class="text-info"><?=$cantidad_total?></span></th>
-              <th><span class="text-warning"><?=$base_total_gastos?></span></th>
-              <th><span class="text-success"><?=$iva_total_gastos?></span></th>
-              <th></th>
-            </tr>
-          </tfoot>
+          
+          <?php for ($i=1; $i <= 4 ; $i++): ?>
+            
+            <?php 
+              $cantidad_total = 'cantidad_total_' . $i;
+              $base_total_gastos = 'base_total_gastos_' . $i;
+              $iva_total_gastos = 'iva_total_gastos_' . $i;
+            ?>
+            
+            <?php if ($$iva_total_gastos): ?>
+              <tfoot>
+                <tr>
+                  <th><?=$i?>º trim</th>
+                  <th><span class="text-info"><?=$$cantidad_total?></span></th>
+                  <th><span class="text-warning"><?=$$base_total_gastos?></span></th>
+                  <th><span class="text-success"><?=$$iva_total_gastos?></span></th>
+                  <th></th>
+                </tr>
+              </tfoot>
+            <?php endif; ?>
+          <?php endfor ?>          
+          
         </table>
       </div>
       <div class="col-4">
         <h3>Overview</h3>
 
         <ul class="list-group">
-          <li class="list-group-item justify-content-between">
-            IVA recibido
-            <span class="badge badge-info badge-pill"><?=number_format($iva_total, 2, ".", "")?> €</span>
-          </li>
-          <li class="list-group-item justify-content-between">
-            IVA desgrable
-            <span class="badge badge-success badge-pill"><?=number_format($iva_total_gastos, 2, ".", "")?> €</span>
-          </li>
-          <li class="list-group-item justify-content-between">
-            IVA Total
-            <span class="badge badge-danger badge-pill"><?= number_format(($iva_total - $iva_total_gastos), 2, ".", "") ?> €</span>
-          </li>
+          
+          <!-- Recorremos los 4 trimestres -->
+          <?php for ($i=1; $i <= 4 ; $i++): ?>
+            <?php $iva_total = 'iva_total_' . $i; ?>
+            <?php $iva_total_gastos = 'iva_total_gastos_' . $i; ?>
+
+            <?php if ($$iva_total || $$iva_total_gastos): ?>
+              <li class="list-group-item justify-content-between">
+                <b><?=$i?>º trim.</b>
+                <?= number_format($$iva_total, 2, ".", "") . " - " . number_format($$iva_total_gastos, 2, ".", "")?>
+                <span class="badge badge-success badge-pill"><?= number_format(($$iva_total - $$iva_total_gastos), 2, ".", "") ?> €</span>
+              </li>
+            <?php endif; ?>
+            
+            
+          <?php endfor ?>
+
         </ul>
       </div>
     </div>
