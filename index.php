@@ -288,7 +288,7 @@
         </table>
       </div>
       <div class="col-4">
-        <h3>Overview</h3>
+        <h3>Resumen IVA</h3>
 
         <ul class="list-group">
           
@@ -309,20 +309,15 @@
           <?php endfor ?>
 
         </ul>
-      </div>
-    </div>
-
-    <br><br>
-
-    <!-- Graficas -->
-    <div class="row">
-      <div class="col-6">
+        
+        <br><br>
+        
+        <!-- Grafica -->
         <div id="chart_div"></div>
-      </div>
-      <div class="col-6">
-        <div id="chart_div2"></div>
+        
       </div>
     </div>
+
     <br>
 
     <h3>Genera factura</h3>
@@ -412,29 +407,6 @@
       data.addColumn('string', 'Topping');
       data.addColumn('number', 'Slices');
       data.addRows([
-        <?php foreach ($cant_tipos_gasto as $tipo => $num): ?>
-          ['<?=$tipo?>', <?=$num?>],
-        <?php endforeach; ?>
-      ]);
-
-      // Set chart options
-      var options = {title:'Cantidad de pagos',
-                     pieSliceText:'value',
-                     pieHole: 0.45,
-                     height:300};
-
-      // Instantiate and draw our chart, passing in some options.
-      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-      chart.draw(data, options);
-    }
-
-    function drawChart2() {
-
-      // Create the data table.
-      var data = new google.visualization.DataTable();
-      data.addColumn('string', 'Topping');
-      data.addColumn('number', 'Slices');
-      data.addRows([
         <?php foreach ($suma_tipos_gasto as $tipo => $num): ?>
           ['<?=$tipo?>', <?=$num?>],
         <?php endforeach; ?>
@@ -443,10 +415,11 @@
       // Set chart options
       var options = {title:'Total €/Tipo',
                      pieSliceText:'value',
+                     width:430,
                      height:300};
 
       // Instantiate and draw our chart, passing in some options.
-      var chart = new google.visualization.PieChart(document.getElementById('chart_div2'));
+      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
       chart.draw(data, options);
     }
     
@@ -475,7 +448,6 @@
 
       // Set a callback to run when the Google Visualization API is loaded.
       google.charts.setOnLoadCallback(drawChart);
-      google.charts.setOnLoadCallback(drawChart2);
 
     });
   </script>
