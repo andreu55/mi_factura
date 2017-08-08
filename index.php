@@ -11,6 +11,26 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
 
+  <style media="screen">
+    .btn-epic {
+      padding: .75rem 2.5rem;
+      color: #fff;
+      text-shadow: 1px 1px 2px #333;
+      /*border-color: ;*/
+      border: 2px solid #fff;
+      background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+      transition: all 2.5s;
+    }
+    .btn-epic:hover {
+      text-shadow: 1px 1px 3px #999;
+      /*border-color: #000;*/
+      border: 2px solid #333;
+      cursor: pointer;
+      /*background:linear-gradient(60deg, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82, #f79533);*/
+      transition: all 0.5s;
+    }
+  </style>
+
   <?php include 'facturas.php'; ?>
 
 </head>
@@ -26,12 +46,12 @@
           $base_total_3 = $iva_total_3 = $irpf_total_3 = $total_total_3 = 0;
           $base_total_4 = $iva_total_4 = $irpf_total_4 = $total_total_4 = 0;
           $base_total_pend = $iva_total_pend = $irpf_total_pend = $total_total_pend = 0;
-          $trimestre = trimestre(date('Y-m-d H:i:s'));        
+          $trimestre = trimestre(date('Y-m-d H:i:s'));
         ?>
 
         <br>
         <h1>
-          Hola, Andreu 
+          Hola, Andreu
           <small class="pull-right text-muted">
             <?=$trimestre?>º Trimestre
             <button class="btn btn-sm btn-info" type="button" onclick="toggle_trimestre(<?=$trimestre?>)">
@@ -76,9 +96,9 @@
                 $total = round($iva + $base - $irpf, 2);
 
                 if ($f->pagada) {
-                  
+
                   $fecha = DateTime::createFromFormat('d/m/Y', $f->fecha)->format('Y-m-d H:i:s');
-                  
+
                   switch (trimestre($fecha)) {
                     case '1':
                       $base_total_1 += $base;
@@ -86,28 +106,28 @@
                       $irpf_total_1 += $irpf;
                       $total_total_1 += $total;
                       break;
-                    
+
                     case '2':
                       $base_total_2 += $base;
                       $iva_total_2 += $iva;
                       $irpf_total_2 += $irpf;
                       $total_total_2 += $total;
                       break;
-                      
+
                     case '3':
                       $base_total_3 += $base;
                       $iva_total_3 += $iva;
                       $irpf_total_3 += $irpf;
                       $total_total_3 += $total;
                       break;
-                      
+
                     case '4':
                       $base_total_4 += $base;
                       $iva_total_4 += $iva;
                       $irpf_total_4 += $irpf;
                       $total_total_4 += $total;
                       break;
-                    
+
                     default:
                       echo "OJO";
                       break;
@@ -132,17 +152,17 @@
               </tr>
             <?php endforeach; ?>
           </tbody>
-          
+
           <!-- Recorremos los 4 trimestres -->
           <?php for ($i=1; $i <= 4 ; $i++): ?>
-            
-            <?php 
+
+            <?php
               $base_total = 'base_total_' . $i;
               $iva_total = 'iva_total_' . $i;
               $irpf_total = 'irpf_total_' . $i;
               $total_total = 'total_total_' . $i;
             ?>
-            
+
             <?php if ($$total_total): ?>
               <tfoot class="trim_<?=$i?>">
                 <tr>
@@ -156,7 +176,7 @@
               </tfoot>
             <?php endif; ?>
           <?php endfor ?>
-          
+
           <!-- Si hay pendientes los mostramos -->
           <?php if ($total_total_pend): ?>
             <tfoot>
@@ -217,36 +237,36 @@
                 $base = round(($g->cantidad / (1 + $g->iva)), 2);
                 // Con esa base, sacamos el iva del gasto
                 $iva = round(($base * $g->iva), 2);
-                
-                
-                
+
+
+
                 $fecha = DateTime::createFromFormat('d/m/Y', $g->fecha)->format('Y-m-d H:i:s');
-                
+
                 switch (trimestre($fecha)) {
                   case '1':
                     $cantidad_total_1 += $g->cantidad;
                     $base_total_gastos_1 += $base;
                     $iva_total_gastos_1 += $iva;
                     break;
-                  
+
                   case '2':
                     $cantidad_total_2 += $g->cantidad;
                     $base_total_gastos_2 += $base;
                     $iva_total_gastos_2 += $iva;
                     break;
-                    
+
                   case '3':
                     $cantidad_total_3 += $g->cantidad;
                     $base_total_gastos_3 += $base;
                     $iva_total_gastos_3 += $iva;
                     break;
-                    
+
                   case '4':
                     $cantidad_total_4 += $g->cantidad;
                     $base_total_gastos_4 += $base;
                     $iva_total_gastos_4 += $iva;
                     break;
-                  
+
                   default:
                     echo "OJO";
                     break;
@@ -263,15 +283,15 @@
               </tr>
             <?php endforeach; ?>
           </tbody>
-          
+
           <?php for ($i=1; $i <= 4 ; $i++): ?>
-            
-            <?php 
+
+            <?php
               $cantidad_total = 'cantidad_total_' . $i;
               $base_total_gastos = 'base_total_gastos_' . $i;
               $iva_total_gastos = 'iva_total_gastos_' . $i;
             ?>
-            
+
             <?php if ($$iva_total_gastos): ?>
               <tfoot class="trim_<?=$i?>">
                 <tr>
@@ -283,15 +303,15 @@
                 </tr>
               </tfoot>
             <?php endif; ?>
-          <?php endfor ?>          
-          
+          <?php endfor ?>
+
         </table>
       </div>
       <div class="col-4">
         <h3>Resumen IVA</h3>
 
         <ul class="list-group">
-          
+
           <!-- Recorremos los 4 trimestres -->
           <?php for ($i=1; $i <= 4 ; $i++): ?>
             <?php $iva_total = 'iva_total_' . $i; ?>
@@ -304,17 +324,17 @@
                 <span class="badge badge-success badge-pill"><?= number_format(($$iva_total - $$iva_total_gastos), 2, ".", "") ?> €</span>
               </li>
             <?php endif; ?>
-            
-            
+
+
           <?php endfor ?>
 
         </ul>
-        
+
         <br><br>
-        
+
         <!-- Grafica -->
         <div id="chart_div"></div>
-        
+
       </div>
     </div>
 
@@ -363,26 +383,26 @@
 
           <div class="form-check">
             <label class="form-check-label">
-              <input class="form-check-input" type="radio" name="cliente" value="1" checked>O'Clock Digital
+              <input class="form-check-input" type="radio" name="cliente" value="1" checked> O'Clock Digital
             </label>
           </div>
           <div class="form-check">
             <label class="form-check-label">
-              <input class="form-check-input" type="radio" name="cliente" value="2">TAXO Valoración, S.L.
+              <input class="form-check-input" type="radio" name="cliente" value="2"> TAXO Valoración, S.L.
             </label>
           </div>
           <div class="form-check">
             <label class="form-check-label">
-              <input class="form-check-input" type="radio" name="cliente" value="3">Nemesis media S.L
+              <input class="form-check-input" type="radio" name="cliente" value="3"> Nemesis media S.L
             </label>
           </div>
           <div class="form-check">
             <label class="form-check-label">
-              <input class="form-check-input" type="radio" name="cliente" value="4">Jose Ángel Rodriguez
+              <input class="form-check-input" type="radio" name="cliente" value="4"> Jose Ángel Rodriguez
             </label>
           </div>
 
-          <button type="submit" class="btn btn-primary" title="Genera pdf" target="_blank">Genera PDF</button>
+          <button type="submit" class="btn btn-lg btn-epic" title="Genera pdf" target="_blank">&nbsp; Genera PDF &nbsp;</button>
         </div>
       </div>
     </form>
@@ -422,7 +442,7 @@
       var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
       chart.draw(data, options);
     }
-    
+
     function toggle_trimestre(i) {
       if (i != 1) { $('.trim_1').toggle(); }
       if (i != 2) { $('.trim_2').toggle(); }
@@ -436,7 +456,7 @@
       $('#tabla_facturas').DataTable({
           "order": [[ 0, "desc" ]]
       });
-      
+
       toggle_trimestre(<?=$trimestre?>);
 
       // Cargamos los tooltips

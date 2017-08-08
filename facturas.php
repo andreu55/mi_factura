@@ -31,6 +31,8 @@ $restaurantes = [
   ['20/07/2017', '3.9', '0.10', 'Almuerzo', 'restaurantes'],
   ['21/07/2017', '2.7', '0.10', 'Almuerzo', 'restaurantes'],
   ['24/07/2017', '2.5', '0.10', 'Almuerzo', 'restaurantes'],
+  ['25/07/2017', '2.5', '0.10', 'Almuerzo', 'restaurantes'],
+  ['26/07/2017', '2.5', '0.10', 'Almuerzo', 'restaurantes'],
 ];
 
 
