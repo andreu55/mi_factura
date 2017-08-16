@@ -5,7 +5,7 @@ $facturas_array = [
   ["001/17", "Jose Ángel Rodriguez", "30/04/2017", "0", "2000", "1", "1"],
   ["002/17", "Taxo Valoración", "30/04/2017", "100", "51", "1", "0"],
   ["003/17", "Taxo Valoración", "30/05/2017", "100", "51", "1", "0"],
-  ["004/17", "O'Clock Digital", "30/06/2017", "90", "15", "0", "0"],
+  ["004/17", "Taxo Valoración", "04/08/2017", "290", "15", "0", "0"],
 ];
 
 $servicios = [
@@ -33,6 +33,15 @@ $restaurantes = [
   ['24/07/2017', '2.5', '0.10', 'Almuerzo', 'restaurantes'],
   ['25/07/2017', '2.5', '0.10', 'Almuerzo', 'restaurantes'],
   ['26/07/2017', '2.5', '0.10', 'Almuerzo', 'restaurantes'],
+  ['27/07/2017', '10', '0.10', 'Colala', 'restaurantes'],
+  ['28/07/2017', '4.8', '0.10', 'Chivito', 'restaurantes'],
+  ['01/08/2017', '3.3', '0.10', 'Almuerzo', 'restaurantes'],
+  ['02/08/2017', '4', '0.10', 'Almuerzo', 'restaurantes'],
+  ['03/08/2017', '3', '0.10', 'Almuerzo', 'restaurantes'],
+  ['04/08/2017', '4.8', '0.10', 'Papito', 'restaurantes'],
+  ['08/08/2017', '5.5', '0.10', 'Almuerzo', 'restaurantes'],
+  ['09/08/2017', '2.5', '0.10', 'Almuerzo', 'restaurantes'],
+  ['10/08/2017', '4', '0.10', 'Almuerzo 2 tickets', 'restaurantes'],
 ];
 
 
