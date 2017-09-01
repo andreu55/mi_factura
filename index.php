@@ -272,9 +272,16 @@
                     break;
                 }
 
+                switch ($g->tipo) {
+                  case 'restaurantes': $color = "#f8d7cf"; break; // Rojo
+                  case 'servicios': $color = "#d6e0f4"; break; // Azul
+                  case 'hardware': $color = "#ffeacc"; break; // Naranja
+                  default: $color = "#fff"; break;
+                }
+
               ?>
 
-              <tr>
+              <tr style="background-color:<?=$color?>">
                 <th scope="row"><small><?=$g->fecha?></small></th>
                 <td><?=number_format($g->cantidad, 2)?></td>
                 <td><?=number_format($base, 2)?></td>
@@ -319,9 +326,14 @@
 
             <?php if ($$iva_total || $$iva_total_gastos): ?>
               <li class="list-group-item justify-content-between trim_<?=$i?>">
-                <b><?=$i?>º trim.</b>
-                <?= $$iva_total . " - " . $$iva_total_gastos?>
-                <span class="badge badge-success badge-pill"><?= number_format(($$iva_total - $$iva_total_gastos), 2, ".", "") ?> €</span>
+                <b><?=$i?>º trim:</b>
+                <span class="text-danger">
+                  <?= $$iva_total ?>€
+                </span><b>-</b>
+                <span class="text-success">
+                  <?= $$iva_total_gastos ?>€
+                </span><b>=</b>
+                <span class="badge badge-warning badge-pill"><?= number_format(($$iva_total - $$iva_total_gastos), 2, ".", "") ?> €</span>
               </li>
             <?php endif; ?>
 
