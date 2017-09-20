@@ -52,7 +52,23 @@ $gastos_array = [
   ['29/08/2017', '2.7', '0.10', 'Almuerzo', 'restaurantes'],
   ['30/08/2017', '3.2', '0.10', 'Almuerzo', 'restaurantes'],
   ['31/08/2017', '5.2', '0.10', 'Almuerzo', 'restaurantes'],
+  ['01/09/2017', '2', '0.10', 'Desayuno', 'restaurantes'],
   ['01/09/2017', '4.5', '0.10', 'Chivito', 'restaurantes'],
+  ['13/09/2017', '5.1', '0.10', 'Almuerzo', 'restaurantes'],
+  ['13/09/2017', '5.1', '0.10', 'Merienda', 'restaurantes'],
+  ['14/09/2017', '5.4', '0.10', 'Almuerzo', 'restaurantes'],
+  ['14/09/2017', '3', '0.10', 'Almuerzo', 'restaurantes'],
+  ['15/09/2017', '4.8', '0.10', 'Chivito', 'restaurantes'],
+  ['12/09/2017', '2.6', '0.10', 'Almuerzo', 'restaurantes'],
+  ['06/09/2017', '3.4', '0.10', 'Desayuno', 'restaurantes'],
+  ['06/09/2017', '2.5', '0.10', 'Almuerzo', 'restaurantes'],
+  ['05/09/2017', '3.9', '0.10', 'Almuerzo', 'restaurantes'],
+  ['04/09/2017', '2.7', '0.10', 'Almuerzo', 'restaurantes'],
+  ['11/09/2017', '2.6', '0.10', 'Almuerzo', 'restaurantes'],
+  ['18/09/2017', '2.7', '0.10', 'Almuerzo', 'restaurantes'],
+  ['19/09/2017', '2.7', '0.10', 'Almuerzo', 'restaurantes'],
+  ['20/09/2017', '5.5', '0.10', 'Almuerzo', 'restaurantes'],  
+  ['20/09/2017', '250', '0.21', 'Osteopatía', 'baile'],
 ];
 
 foreach ($facturas_array as $i => $f) {
