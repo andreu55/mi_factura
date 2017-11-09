@@ -1,5 +1,10 @@
-
 <?php
+
+require_once('config/db.php');
+
+
+// Faltará cargar los datos de la db
+
 
 $facturas_array = [
   ["005/17", "Taxo Valoración", "30/09/2017", "0", "1600", "1", "0"],
@@ -80,6 +85,32 @@ $gastos_array = [
   ['27/09/2017', '42.5', '0.10', 'Clases', 'baile'],
   ['28/09/2017', '2.5', '0.10', 'Almuerzo', 'restaurantes'],
   ['29/09/2017', '4.5', '0.10', 'Chivito', 'restaurantes'],
+  ['01/10/2017', '12.7', '0.10', 'Mas de Barberans', 'restaurantes'],
+  ['03/10/2017', '3', '0.10', 'Alumuerzo', 'restaurantes'],
+  ['03/10/2017', '3.5', '0.10', 'Chivito', 'restaurantes'],
+  ['04/10/2017', '3', '0.10', 'Alumuerzo', 'restaurantes'],
+  ['04/10/2017', '6.59', '0.10', 'Comida consum', 'restaurantes'],
+  ['05/10/2017', '2.7', '0.10', 'Alumuerzo', 'restaurantes'],
+  ['06/10/2017', '9.3', '0.10', 'Chivito', 'restaurantes'],
+  ['10/10/2017', '2.5', '0.10', 'Alumuerzo', 'restaurantes'],
+  ['11/10/2017', '1.5', '0.10', 'Alumuerzo', 'restaurantes'],
+  ['13/10/2017', '4.5', '0.10', 'Chivito', 'restaurantes'],
+  ['14/10/2017', '14.1', '0.10', 'Comida ZGZ', 'restaurantes'],
+  ['14/10/2017', '14', '0.10', 'Comida ZGZ', 'restaurantes'],
+  ['15/10/2017', '4', '0.10', 'Comida MUV', 'restaurantes'],
+  ['15/10/2017', '10', '0.10', 'Comida MUV', 'restaurantes'],
+  ['15/10/2017', '5', '0.10', 'Comida MUV', 'restaurantes'],
+  ['16/10/2017', '2.5', '0.10', 'Almuerzo', 'restaurantes'],
+  ['17/10/2017', '3', '0.10', 'Alumuerzo', 'restaurantes'],
+  ['18/10/2017', '2.7', '0.10', 'Almuerzo', 'restaurantes'],
+  ['19/10/2017', '2.5', '0.10', 'Almuerzo', 'restaurantes'],
+  ['20/10/2017', '2.35', '0.10', 'Merienda', 'restaurantes'],
+  ['20/10/2017', '4.5', '0.10', 'Chivito', 'restaurantes'],
+  ['23/10/2017', '2.5', '0.10', 'Almuerzo', 'restaurantes'],
+  ['25/10/2017', '7.74', '0.10', 'Comida consum', 'restaurantes'],
+  ['26/10/2017', '3', '0.10', 'Almuerzo', 'restaurantes'],
+
+  ['03/11/2017', '25', '0.21', '5 Aniversario BB', 'baile'],
 ];
 
 foreach ($facturas_array as $i => $f) {
