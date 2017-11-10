@@ -4,10 +4,10 @@
 
 <head>
   <title>Mi factura</title>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="description" content="For generating PDF documents on the fly" />
   <meta name="author" content="Andreu garcía" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
 
@@ -53,7 +53,7 @@
         <h1>
           Hola, Andreu
           <small class="pull-right text-muted">
-            <?=$trimestre?>º Trimestre
+            <?= $year ?>, <?=$trimestre?>º Trimestre
             <button class="btn btn-sm btn-info" type="button" onclick="toggle_trimestre(<?=$trimestre?>)">
               <i class="fa fa-angle-down" aria-hidden="true"></i>
             </button>
@@ -74,7 +74,8 @@
             <th>Importe</th>
           </tr></thead>
           <tbody>
-            <?php foreach ($facturas as $key => $f): ?>
+            <?php if (isset($facturas) && $facturas): ?>
+              <?php foreach ($facturas as $key => $f): ?>
 
               <?php
 
@@ -151,6 +152,7 @@
                 <td><?= $total ?></td>
               </tr>
             <?php endforeach; ?>
+            <?php endif; ?>
           </tbody>
 
           <!-- Recorremos los 4 trimestres -->
@@ -218,7 +220,8 @@
               $cant_tipos_gasto = $suma_tipos_gasto = [];
             ?>
 
-            <?php foreach ($gastos as $key => $g): ?>
+            <?php if (isset($gastos) && $gastos): ?>
+              <?php foreach ($gastos as $key => $g): ?>
 
               <?php
 
@@ -289,6 +292,7 @@
                 <td><small><?=$g->concepto?></small></td>
               </tr>
             <?php endforeach; ?>
+            <?php endif; ?>
           </tbody>
 
           <?php for ($i=1; $i <= 4 ; $i++): ?>
@@ -360,7 +364,7 @@
           <div class="form-group row">
             <label for="id" class="col-2 col-form-label">ID factura</label>
             <div class="col-10">
-              <input class="form-control" type="text" value="<?= count($facturas) + 1 ?>" name="id">
+              <input class="form-control" type="text" value="<?= $num_facturas+1 ?>" name="id">
             </div>
           </div>
           <div class="form-group row">
@@ -425,8 +429,8 @@
   </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
   <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
   <script src="https://www.gstatic.com/charts/loader.js"></script>
 

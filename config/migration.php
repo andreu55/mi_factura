@@ -1,10 +1,50 @@
 <?php
 
-require_once('db.php');
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "mi_factura_db";
+
+// Create connection
+$db = new mysqli($servername, $username, $password);
+
+// Check connection
+if ($db->connect_error) {
+    die("Connection failed: " . $db->connect_error);
+}
+echo "Connected successfully<br>";
 
 // Reset tables
-if ($conn->query("DROP TABLE facturas, gastos") === TRUE) { echo "Droped tables<br>"; }
-else { echo "Error droping: " . $conn->error; }
+if ($db->query("DROP DATABASE mi_factura_db") === TRUE) { echo "Droped mi_factura_db<br>"; }
+else { echo "Error droping: " . $db->error . "<br>"; }
+
+// Create database
+$sql = "CREATE DATABASE mi_factura_db";
+if ($db->query($sql) === TRUE) {
+    echo "Database created successfully<br>";
+} else {
+    echo "Error creating database: " . $db->error;
+}
+
+// Cerramos conexion
+$db->close();
+
+// Create connection
+$db = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($db->connect_error) {
+    die("Connection failed: " . $db->connect_error);
+}
+echo "Connected successfully<br>";
+
+/* cambiar el conjunto de caracteres a utf8 */
+if (!$db->set_charset("utf8")) {
+    printf("Error cargando el conjunto de caracteres utf8: %s\n", $db->error);
+    exit();
+} else {
+    printf("Conjunto de caracteres actual: %s<br>\n", $db->character_set_name());
+}
 
 // Migration
 
@@ -20,10 +60,10 @@ $sql = "CREATE TABLE facturas (
   persona_fisica TINYINT UNSIGNED NOT NULL
 )";
 
-if ($conn->query($sql) === TRUE) {
+if ($db->query($sql) === TRUE) {
     echo "Table facturas created successfully<br>";
 } else {
-    exit("Error creating facturas: " . $conn->error);
+    exit("Error creating facturas: " . $db->error);
 }
 
 
@@ -37,15 +77,11 @@ $sql = "CREATE TABLE gastos (
   tipo VARCHAR(255) NOT NULL
 )";
 
-if ($conn->query($sql) === TRUE) {
+if ($db->query($sql) === TRUE) {
     echo "Table gastos created successfully<br>";
 } else {
-    exit("Error creating gastos: " . $conn->error);
+    exit("Error creating gastos: " . $db->error);
 }
-
-
-
-
 
 // Seeding
 
@@ -58,10 +94,10 @@ $sql = "INSERT INTO facturas (num, cliente, fecha, horas, precio, pagada, person
   ('005/17', 'Taxo Valoración', '2017-09-30', '0', '1600', '1', '0')
 ";
 
-if ($conn->query($sql) === TRUE) {
+if ($db->query($sql) === TRUE) {
     echo "Facturas seeded<br>";
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "Error: " . $sql . "<br>" . $db->error;
 }
 
 // Gastos
@@ -163,11 +199,11 @@ $sql = "INSERT INTO gastos (fecha, cantidad, iva, concepto, tipo) VALUES
   ('2017-11-03', '25', '0.21', '5 Aniversario BB', 'baile')
 ";
 
-if ($conn->query($sql) === TRUE) {
+if ($db->query($sql) === TRUE) {
     echo "Gastos seeded<br>";
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "Error: " . $sql . "<br>" . $db->error;
 }
 
 // Cerramos conexion
-$conn->close();
+$db->close();
