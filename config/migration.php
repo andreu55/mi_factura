@@ -1,8 +1,8 @@
 <?php
 
 $servername = "localhost";
-$username = "root";
-$password = "";
+$username = "andreu";
+$password = "marinero";
 $dbname = "mi_factura_db";
 
 // Create connection
