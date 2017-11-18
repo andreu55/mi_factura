@@ -27,7 +27,9 @@
     /*background:linear-gradient(60deg, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82, #f79533);*/
     transition: all 0.5s;
   }
+  .fw-200 { font-weight: 200; }
   </style>
+  <?php require_once('config/helper.php'); ?>
 </head>
 <body>
   <div id="block_final" style="display:none">
@@ -37,9 +39,19 @@
           <h1 class="display-3">Gasto guardado!</h1>
           <p class="lead">Enhorabuena! molas mogollón y aqui un Lorem ipsum dolor sit amet, a deserunt mollit anim id est laborum para rellenar</p>
           <hr class="my-4">
-          <p class="">
+          <p>
             <p>¿Quieres introducir otro pago?</p>
-            <button class="btn btn-primary btn-lg btn-block" id="refresh" role="button">Oh yeah!</button>
+            <button class="btn btn-primary btn-lg btn-block" id="refresh" role="button">
+              <i class="fa fa-fw fa-plus" aria-hidden="true"></i>
+              Oh yeah!
+            </button>
+          </p>
+          <p>
+            <p>Ir a todos los pagos</p>
+            <a href="<?= url('/ver.php') ?>" class="btn btn-warning btn-lg btn-block">
+              <i class="fa fa-fw fa-list" aria-hidden="true"></i>
+              Gestionar
+            </a>
           </p>
         </div>
       </div>
@@ -52,9 +64,12 @@
           <a href="/" class="btn btn-info">
             <i class="fa fa-arrow-left" aria-hidden="true"></i>
           </a>
-          <span style="vertical-align:middle">
+          <span class="fw-200" style="vertical-align:middle">
             Hola, Andreu
           </span>
+          <a href="<?= url('/ver.php') ?>" class="btn btn-lg btn-warning pull-right">
+            <i class="fa fa-list" aria-hidden="true"></i>
+          </a>
         </h2>
 
         <ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
@@ -68,11 +83,14 @@
         <div class="tab-content" id="pills-tabContent">
           <div class="tab-pane fade show active" id="pills-gasto" role="tabpanel" aria-labelledby="pills-gasto-tab">
 
-
             <div class="form-group">
               <label for="cantidad">Cantidad</label>
-              <input type="number" class="form-control" id="cantidad" step='0.01' placeholder="Enter cantidad" required>
+              <div class="input-group">
+                <input type="number" class="form-control" id="cantidad" step='0.01' placeholder="100.95" required>
+                <span class="input-group-addon"><b>€</b></span>
+              </div>
             </div>
+
             <div class="form-group">
               <div class="row">
                 <div class="col">
@@ -96,7 +114,7 @@
             </div>
             <div class="form-group">
               <label for="concepto">Concepto</label>
-              <input type="text" class="form-control" id="concepto" placeholder="Enter concepto" required>
+              <input type="text" class="form-control" id="concepto" placeholder="Cafetería" required>
             </div>
             <button id="guarda-gasto" class="btn btn-epic btn-block mb-3 mt-4">Guardar</button>
 
@@ -160,6 +178,11 @@
 
     $('#block_final').slideUp();
     $('#block_inicial').slideDown();
+  });
+
+  $("#tipo").change(function() {
+    var iva = $("#tipo option:selected").data('iva');
+    $("#iva").hide().val(iva).fadeIn();
   });
 
 
