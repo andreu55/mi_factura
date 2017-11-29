@@ -338,7 +338,7 @@
       <div class="col-12 col-sm-4">
         <h3>Resumen IVA</h3>
 
-        <ul class="list-group">
+        <ul class="list-group text-center">
 
           <!-- Recorremos los 4 trimestres -->
           <?php for ($i=1; $i <= 4 ; $i++): ?>
