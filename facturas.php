@@ -22,6 +22,7 @@ if ($sqlres->num_rows > 0) {
     $facturas[$i]->id = $r['num']; // Num factura
     $facturas[$i]->cliente = $r['cliente'];
     $facturas[$i]->fecha = sqlToHuman($r['fecha']);
+    $facturas[$i]->fecha_sql = $r['fecha'];
     $facturas[$i]->horas = $r['horas']; // Cantidad / Horas
     $facturas[$i]->precio = $r['precio']; // Precio por hora / Precio final (si 'cantidad' = 0)
     $facturas[$i]->pagada = $r['pagada']; // Pagada?
@@ -40,6 +41,7 @@ if ($sqlres->num_rows > 0) {
     $gastos[$i] = new stdClass;
     $gastos[$i]->id = $r['id'];
     $gastos[$i]->fecha = sqlToHuman($r['fecha']);
+    $gastos[$i]->fecha_sql = $r['fecha'];
     $gastos[$i]->cantidad = $r['cantidad'];
     $gastos[$i]->iva = $r['iva'];
     $gastos[$i]->concepto = $r['concepto'];

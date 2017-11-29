@@ -141,7 +141,7 @@
                 }
               ?>
 
-              <tr class="trim_<?=trimestre($f->fecha)?>"  style="background-color:<?= $f->pagada ? "#dff0d8" : "#FFE5E5" ?>">
+              <tr class="trim_<?=trimestre($f->fecha_sql)?>"  style="background-color:<?= $f->pagada ? "#dff0d8" : "#FFE5E5" ?>">
                 <td><?=$f->id?></td>
                 <td><?=$f->cliente?></td>
                 <td><?=$f->fecha?></td>
@@ -284,7 +284,7 @@
 
               ?>
 
-              <tr class="trim_<?=trimestre($g->fecha)?>" style="background-color:<?=$color?>">
+              <tr class="trim_<?=trimestre($g->fecha_sql)?>" style="background-color:<?=$color?>">
                 <th scope="row"><small><?=$g->fecha?></small></th>
                 <td><?=number_format($g->cantidad, 2)?></td>
                 <td><?=number_format($base, 2)?></td>
