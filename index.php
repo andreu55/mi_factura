@@ -38,7 +38,25 @@
 <body>
   <div class="container">
     <div class="row">
-      <div class="col-12">
+      <div class="container text-center d-sm-none mt-3">
+        <!-- Versión móvil -->
+        <h1>Hola, Andreu</h1>
+        <div class="row">
+          <div class="col">
+            <a href="<?= url('/new.php') ?>" class="btn btn-lg btn-info btn-block">
+              <i class="fa fa-fw fa-plus" aria-hidden="true"></i>
+              Añadir
+            </a>
+          </div>
+          <div class="col">
+            <a href="<?= url('/ver.php') ?>" class="btn btn-warning btn-lg btn-block">
+              <i class="fa fa-fw fa-list" aria-hidden="true"></i>
+              Gestionar
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 d-none d-sm-block">
 
         <?php
           $base_total_1 = $iva_total_1 = $irpf_total_1 = $total_total_1 = 0;
@@ -51,6 +69,7 @@
 
         <br>
         <h1>
+          <!-- Versión Escritorio -->
           Hola, Andreu
           <small class="pull-right text-muted">
             <?= $year ?>, <?=$trimestre?>º Trimestre
@@ -200,7 +219,7 @@
     <br><br>
 
     <div class="row">
-      <div class="col-8">
+      <div class="col-8 d-none d-sm-block">
         <h3>Gastos</h3>
         <table class="table table-sm">
           <thead><tr>
@@ -318,7 +337,7 @@
 
         </table>
       </div>
-      <div class="col-4">
+      <div class="col-12 col-sm-4">
         <h3>Resumen IVA</h3>
 
         <ul class="list-group">
@@ -360,7 +379,7 @@
     <br>
     <form action="examples/fac.php" method="post">
       <div class="row">
-        <div class="col-9">
+        <div class="col-12 col-sm-9">
           <div class="form-group row">
             <label for="id" class="col-2 col-form-label">ID factura</label>
             <div class="col-10">
@@ -395,7 +414,7 @@
             </div>
           </div>
         </div>
-        <div class="col-3">
+        <div class="col-12 col-sm-3">
 
           <div class="form-check">
             <label class="form-check-label">
@@ -418,7 +437,7 @@
             </label>
           </div>
 
-          <button type="submit" class="btn btn-lg btn-epic" title="Genera pdf" target="_blank">&nbsp; Genera PDF &nbsp;</button>
+          <button type="submit" class="btn btn-lg btn-block btn-epic" title="Genera pdf" target="_blank">&nbsp; Genera PDF &nbsp;</button>
         </div>
       </div>
     </form>
