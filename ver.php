@@ -32,6 +32,7 @@
   </style>
 
   <?php include 'facturas.php'; ?>
+  
 </head>
 <body>
   <div class="container">

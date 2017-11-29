@@ -91,7 +91,8 @@ $sql = "INSERT INTO facturas (num, cliente, fecha, horas, precio, pagada, person
   ('002/17', 'Taxo Valoración', '2017-04-30', '100', '51', '1', '0'),
   ('003/17', 'Taxo Valoración', '2017-05-30', '100', '51', '1', '0'),
   ('004/17', 'Taxo Valoración', '2017-08-04', '290', '15', '1', '0'),
-  ('005/17', 'Taxo Valoración', '2017-09-30', '0', '1600', '1', '0')
+  ('005/17', 'Taxo Valoración', '2017-09-30', '0', '1600', '1', '0'),
+  ('006/17', 'Taxo Valoración', '2017-10-31', '0', '1600', '1', '0')
 ";
 
 if ($db->query($sql) === TRUE) {

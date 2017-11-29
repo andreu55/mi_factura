@@ -31,7 +31,7 @@ if ($sqlres->num_rows > 0) {
 }
 
 // Cargamos las gastos
-$sql = "SELECT * FROM gastos WHERE fecha BETWEEN '$year-01-01' AND '$year-12-31' ORDER BY id DESC";
+$sql = "SELECT * FROM gastos WHERE fecha BETWEEN '$year-01-01' AND '$year-12-31' ORDER BY fecha DESC";
 $sqlres = $db->query($sql);
 
 if ($sqlres->num_rows > 0) {
