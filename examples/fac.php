@@ -221,8 +221,8 @@ $pdf->Ln(5);
 // $pdf->Ln(2);
 
 $pdf->SetFont('helvetica', '', 13);
-$pdf->Cell(0, 0, 'Banco Santander', 0, 1, 'L', 0, '', 1);
-$pdf->Cell(0, 0, 'IBAN ES2400491607622190164433', 0, 1, 'L', 0, '', 1);
+$pdf->Cell(0, 0, 'Openbank (Grupo Santander)', 0, 1, 'L', 0, '', 1);
+$pdf->Cell(0, 0, 'IBAN ES1800730100500560829887', 0, 1, 'L', 0, '', 1);
 
 
 
