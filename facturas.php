@@ -12,7 +12,7 @@ $num_facturas = $db->query($sql)->fetch_array()[0];
 
 
 // Cargamos las facturas
-$sql = "SELECT * FROM facturas WHERE fecha BETWEEN '$year-01-01' AND '$year-12-31'";
+$sql = "SELECT * FROM facturas WHERE fecha BETWEEN '$year-01-01' AND '$year-12-31' ORDER BY fecha DESC, id DESC";
 $sqlres = $db->query($sql);
 
 if ($sqlres->num_rows > 0) {
@@ -32,7 +32,7 @@ if ($sqlres->num_rows > 0) {
 }
 
 // Cargamos las gastos
-$sql = "SELECT * FROM gastos WHERE fecha BETWEEN '$year-01-01' AND '$year-12-31' ORDER BY fecha DESC";
+$sql = "SELECT * FROM gastos WHERE fecha BETWEEN '$year-01-01' AND '$year-12-31' ORDER BY fecha DESC, id DESC";
 $sqlres = $db->query($sql);
 
 if ($sqlres->num_rows > 0) {
