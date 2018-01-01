@@ -3,7 +3,11 @@
 require_once('config/db.php');
 require_once('config/helper.php');
 
-$year = date('Y');
+// $trimestre = trimestre(date('Y-m-d H:i:s'));
+// $year = date('Y');
+$trimestre = trimestre(date('2017-12-30 H:i:s'));
+$year = '2017';
+
 $num_facturas = 0;
 
 // Contamos cuantas facturas hay en total (independiente del año que sea)

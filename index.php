@@ -62,7 +62,6 @@
           $base_total_3 = $iva_total_3 = $irpf_total_3 = $total_total_3 = 0;
           $base_total_4 = $iva_total_4 = $irpf_total_4 = $total_total_4 = 0;
           $base_total_pend = $iva_total_pend = $irpf_total_pend = $total_total_pend = 0;
-          $trimestre = trimestre(date('Y-m-d H:i:s'));
         ?>
 
         <br>
