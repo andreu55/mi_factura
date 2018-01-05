@@ -26,11 +26,6 @@ if (isset($_POST['id'])) {
 	// Si no es numeric es una persona física (asique no le retenemos irpf)
 	if (!is_numeric($ultimo_char_nif)) { $ret_irpf = 0; }
 
-	// Rellenado de ceros hacia la izquierda
-	$id = str_pad($_POST['id'],  3, "0", STR_PAD_LEFT);
-	$id_factura = $id . '/' . date('y');
-
-
 	$precio = $_POST['precio'];
 
 	// Si le ponemos las horas cobramos por hora
@@ -57,9 +52,16 @@ if (isset($_POST['id'])) {
 
 	$ftemp = explode('-', $_POST['fecha']);
 	$fecha = $ftemp[2] . "/" . $ftemp[1] . "/" . $ftemp[0];
+	$any = $ftemp[0];
+	$any_sm = substr($ftemp[0], -2);
 
 
-	$id_nombre_factura = $id . '-' . date('y');
+	// Rellenado de ceros hacia la izquierda
+	$id = str_pad($_POST['id'],  3, "0", STR_PAD_LEFT);
+	$id_factura = $id . '/' . $any_sm;
+
+
+	$id_nombre_factura = $id . '-' . $any_sm;
 	$nombre_pdf = 'fac_' . $id_nombre_factura . '.pdf';
 }
 
@@ -73,7 +75,7 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Andreu García');
 $pdf->SetTitle('Factura Andreu');
-$pdf->SetSubject('Factura' . date('Y'));
+$pdf->SetSubject('Factura' . $any);
 
 // remove default header/footer
 $pdf->setPrintHeader(false);
@@ -220,8 +222,12 @@ $pdf->Ln(5);
 // $pdf->Cell(0, 0, 'Cuenta bancaria de pago', 0, 1, 'L', 0, '', 1);
 // $pdf->Ln(2);
 
+$pdf->SetFont('helvetica', 'B', 14);
+$pdf->Cell(0, 0, 'Openbank', 0, 1, 'L', 0, '', 1);
+
+$pdf->Ln(1);
+
 $pdf->SetFont('helvetica', '', 13);
-$pdf->Cell(0, 0, 'Openbank (Grupo Santander)', 0, 1, 'L', 0, '', 1);
 $pdf->Cell(0, 0, 'IBAN ES1800730100500560829887', 0, 1, 'L', 0, '', 1);
 
 
